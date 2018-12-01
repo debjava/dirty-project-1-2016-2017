@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="us">
+<head>
+<meta charset="utf-8">
+<title>Digital Marketing Microservices Health Check-up</title>
+<link rel="icon" type="image/ico" href="icons/favicon.ico"/>
+<link href="jquery-ui-1.12.0.darkhive/jquery-ui.css" rel="stylesheet">
+<script src="jquery-ui-1.12.0.darkhive/external/jquery/jquery.js"></script>
+<script src="jquery-ui-1.12.0.darkhive/jquery-ui.js"></script>
+<script src="sockjs-0.3.4.js"></script>
+<script src="stomp.js"></script>
+<style>
+body {
+	font-family: "Trebuchet MS", sans-serif;
+	margin: 50px;
+}
+
+.demoHeaders {
+	margin-top: 2em;
+}
+
+#dialog-link {
+	padding: .4em 1em .4em 20px;
+	text-decoration: none;
+	position: relative;
+}
+
+#dialog-link span.ui-icon {
+	margin: 0 5px 0 0;
+	position: absolute;
+	left: .2em;
+	top: 50%;
+	margin-top: -8px;
+}
+
+#icons {
+	margin: 0;
+	padding: 0;
+}
+
+#icons li {
+	margin: 2px;
+	position: relative;
+	padding: 4px 0;
+	cursor: pointer;
+	float: left;
+	list-style: none;
+}
+
+#icons span.ui-icon {
+	float: left;
+	margin: 0 4px;
+}
+
+.fakewindowcontain .ui-widget-overlay {
+	position: absolute;
+}
+
+select {
+	width: 200px;
+}
+</style>
+<script type="text/javascript">
+	var stompClient = null;
+	var listenerTopic = '/topic/services';
+	var socketServerUrl = '/appstudio/check';
+
+	//Remove all the rows from the table except headers
+	function setConnected() {
+		$("#resultTabId1").find("tr:gt(0)").remove();
+	}
+
+	function disconnect() {
+		//Hide the table on disconnection
+		$('#resultTabId1').hide();
+		if (stompClient != null) {
+			stompClient.disconnect();
+		}
+		setConnected();
+		console.log("Disconnected the socket");
+	}
+
+	function connect() {
+		//Disconnect and Connect
+		disconnect();
+		//Display the table
+		$('#resultTabId1').show();
+
+		var socket = new SockJS(socketServerUrl);
+		stompClient = Stomp.over(socket);
+		stompClient.connect({}, function(frame) {
+			setConnected(true);
+			sendToSocket();
+			console.log('Connected: ' + frame);
+			stompClient.subscribe(listenerTopic, function(status) {
+				showResults(JSON.parse(status.body));
+			});
+		});
+	}
+
+	function showResults(status) {
+		var row = $("<tr>");
+		row.append($("<td>").text(status.serviceName));
+		row.append($("<td>").text(status.hostIp));
+		row.append($("<td>").text(status.hostName));
+		row.append($("<td>").text(status.status));
+		$("#resultTabId1").last().append(row);
+	}
+
+	function sendToSocket() {
+		stompClient.send(socketServerUrl, {});
+	}
+
+	function check() {
+		connect();
+	}
+</script>
+</head>
+<body>
+
+	<h1>Check all the micro-services of Digital Marketing</h1>
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">Production</a></li>
+			<li><a href="#tabs-2">DEV</a></li>
+			<li><a href="#tabs-3">QA</a></li>
+		</ul>
+		<div id="tabs-1">
+
+			<div>
+				<button id="check" onclick="check();">Check</button>
+			</div>
+
+			<div id="resultDivId">
+
+				<table id="resultTabId1" border=1>
+					<thead>
+						<tr>
+							<th>Service Name</th>
+							<th>IP Address</th>
+							<th>Host Name</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</div>
+
+		<div id="tabs-2">To be added for DEV environment</div>
+
+		<div id="tabs-3">To be added for QA environment</div>
+	</div>
+
+	<script>
+		disconnect();
+		$("#tabs").tabs();
+	</script>
+</body>
+</html>

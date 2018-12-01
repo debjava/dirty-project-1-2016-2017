@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+
+	<context:annotation-config />
+	
+	<!-- <context:property-placeholder location="classpath:config.properties" /> -->
+
+	<!-- Spring's scheduling support -->
+	<task:scheduled-tasks scheduler="taskScheduler">
+	
+		<!-- Every 2 seconds -->
+		<task:scheduled ref="solrFullImport" method="schedule" cron="*/2 * * * * ?" />
+
+		<!-- Every 5 seconds -->
+		<!-- <task:scheduled ref="solrFullImport" method="schedule" cron="*/5 * * * * ?" /> -->
+
+		<!-- Every 5 minutes -->
+		<!-- <task:scheduled ref="solrFullImport" method="schedule" cron="0 0/5	* * * ?" /> -->
+
+		<!-- <task:scheduled ref="solrFullImport" method="schedule" fixed-rate="500"/> -->
+
+	</task:scheduled-tasks>
+
+
+
+	<!-- The bean that does the actual work -->
+	<bean id="solrFullImport" class="com.apollo.itc.scheduler.SolrFullImportScheduler">
+		<!-- <property name="solrConfig" ref="solrConfig"></property> -->
+		<!-- <property name="solrConfig"></property> -->
+	</bean>
+
+<!-- 	<bean id="solrConfig" class="com.apollo.itc.config.SolrConfig">
+		<property name="solrFullImportUrl" value="Full Import Url" />
+		<property name="solrDeltaImportUrl" value="Delta Import Url" />
+	</bean>
+ -->
+
+	<!-- Defines a ThreadPoolTaskScheduler instance with configurable pool size. -->
+	<task:scheduler id="taskScheduler" pool-size="1" />
+
+
+</beans>

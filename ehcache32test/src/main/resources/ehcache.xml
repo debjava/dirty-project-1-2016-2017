@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<ehcache:config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xmlns:ehcache='http://www.ehcache.org/v3'
+	xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.1.xsd">
+
+
+	<ehcache:persistence directory="E:/dirty-project-2017/ehcache32test/edata" />
+	
+	
+	
+
+	<ehcache:cache alias="basicCache">
+		<ehcache:key-type>java.lang.String</ehcache:key-type>
+		<ehcache:value-type>com.ddlab.rnd.ZipCodeNCourses</ehcache:value-type>
+		
+		<!-- <ehcache:resources>
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			<ehcache:offheap unit="MB">1</ehcache:offheap>
+		</ehcache:resources> -->
+		
+		<ehcache:resources>
+			<ehcache:heap unit="entries">100</ehcache:heap>
+			<!--  <ehcache:offheap unit="MB">10</ehcache:offheap> -->
+		</ehcache:resources>
+		
+		<!-- <ehcache:heap-store-settings>
+			<ehcache:max-object-graph-size>10</ehcache:max-object-graph-size>
+      		<ehcache:max-object-size unit="kB">1</ehcache:max-object-size>
+		</ehcache:heap-store-settings> -->
+		
+		<ehcache:disk-store-settings thread-pool="pool-disk" writer-concurrency="10" />
+		
+		<!-- <ehcache:disk-store-settings > </ehcache:disk-store-settings> -->
+	</ehcache:cache>
+</ehcache:config>

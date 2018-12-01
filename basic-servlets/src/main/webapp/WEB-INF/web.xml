@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>Archetype Created Web Application Basic Servlet</display-name>
+
+	<servlet>
+		<servlet-name>sendredirect</servlet-name>
+		<servlet-class>com.ddlab.rnd.servlets.SendRedirectServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>sendredirect</servlet-name>
+		<url-pattern>/sendredirect</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>redirectedServlet</servlet-name>
+		<servlet-class>com.ddlab.rnd.servlets.RedirectedServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>redirectedServlet</servlet-name>
+		<url-pattern>/redirectedServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>forwardServlet</servlet-name>
+		<servlet-class>com.ddlab.rnd.servlets.ForwardServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>forwardServlet</servlet-name>
+		<url-pattern>/forwardServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>forwardedServlet</servlet-name>
+		<servlet-class>com.ddlab.rnd.servlets.ForwardedServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>forwardedServlet</servlet-name>
+		<url-pattern>/forwardedServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>testServlet</servlet-name>
+		<servlet-class>com.ddlab.rnd.servlets.TestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>testServlet</servlet-name>
+		<url-pattern>/testServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>initServlet</servlet-name>
+		<servlet-class>com.ddlab.rnd.servlets.InitServlet</servlet-class>
+		<init-param>
+			<param-name>param1</param-name>
+			<param-value>parameter value 1</param-value>
+		</init-param>
+		<init-param>
+			<param-name>param2</param-name>
+			<param-value>parameter value 2</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>initServlet</servlet-name>
+		<url-pattern>/initServlet</url-pattern>
+	</servlet-mapping>
+	
+	<!-- Error servlet -->
+	<servlet>
+		<servlet-name>errorServlet</servlet-name>
+		<servlet-class>com.ddlab.rnd.servlets.ErrorServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>errorServlet</servlet-name>
+		<url-pattern>/errorServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>errorServlet1</servlet-name>
+		<servlet-class>com.ddlab.rnd.servlets.ErrorServlet1</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>errorServlet1</servlet-name>
+		<url-pattern>/errorServlet1</url-pattern>
+	</servlet-mapping>
+	
+	<error-page>
+		<exception-type>javax.servlet.ServletException</exception-type>
+		<location>/customErrorPage.html</location>
+	</error-page>
+	
+
+</web-app>

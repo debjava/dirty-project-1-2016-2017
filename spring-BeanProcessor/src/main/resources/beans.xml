@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="emp" class="com.ddlab.rnd.spring.Employee"
+          init-method="init" destroy-method="destroy">
+        <property name="name" value="Hello World!"/>
+    </bean>
+
+    <bean id="project" class="com.ddlab.rnd.spring.Project"
+          init-method="init" destroy-method="destroy">
+        <property name="name" value="Digital marketing"/>
+    </bean>
+
+    <bean class="com.ddlab.rnd.spring.InitBeans" />
+
+</beans>

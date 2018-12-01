@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="us">
+<head>
+<meta charset="utf-8">
+<title>jQuery UI Example Page</title>
+<link href="jquery-ui-1.12.0.darkhive/jquery-ui.css" rel="stylesheet">
+<script src="jquery-ui-1.12.0.darkhive/external/jquery/jquery.js"></script>
+<script src="jquery-ui-1.12.0.darkhive/jquery-ui.js"></script>
+<script src="sockjs-0.3.4.js"></script>
+<script src="stomp.js"></script>
+<style>
+body {
+	font-family: "Trebuchet MS", sans-serif;
+	margin: 50px;
+}
+
+.demoHeaders {
+	margin-top: 2em;
+}
+
+#dialog-link {
+	padding: .4em 1em .4em 20px;
+	text-decoration: none;
+	position: relative;
+}
+
+#dialog-link span.ui-icon {
+	margin: 0 5px 0 0;
+	position: absolute;
+	left: .2em;
+	top: 50%;
+	margin-top: -8px;
+}
+
+#icons {
+	margin: 0;
+	padding: 0;
+}
+
+#icons li {
+	margin: 2px;
+	position: relative;
+	padding: 4px 0;
+	cursor: pointer;
+	float: left;
+	list-style: none;
+}
+
+#icons span.ui-icon {
+	float: left;
+	margin: 0 4px;
+}
+
+.fakewindowcontain .ui-widget-overlay {
+	position: absolute;
+}
+
+select {
+	width: 200px;
+}
+</style>
+<script type="text/javascript">
+	var stompClient = null;
+
+	function setConnected(connected) {
+		document.getElementById('results').innerHTML = '';
+	}
+
+	function disconnect() {
+		if (stompClient != null) {
+			stompClient.disconnect();
+		}
+		setConnected(false);
+		console.log("Disconnected the socket");
+		
+		var resultDiv = document.getElementById("resultTabId");
+		resultDiv.style.display = 'none';
+	}
+
+	function connect() {
+		disconnect();
+		var socket = new SockJS('/appstudio/check');
+		stompClient = Stomp.over(socket);
+		stompClient.connect({}, function(frame) {
+			setConnected(true);
+			sendName();
+			console.log('Connected: ' + frame);
+			stompClient.subscribe('/topic/services', function(status) {
+				//showGreeting(greeting);
+				//showResults(JSON.parse(greeting.body).content);
+				//showResults(greeting);
+				//showResults(JSON.parse(greeting.body).name);
+				showResults(JSON.parse(status.body));
+			});
+		});
+	}
+
+	/* function show(status) {
+		var response = document.getElementById('results');
+		var table1 = document.createElement('table');
+
+		//table1.border = "1";
+		table1.style.width = '200px';
+		table1.setAttribute('border', '1');
+
+		//var th1 = document.createElement('th');
+
+		var tr = document.createElement('tr');
+
+		var serviceNameTD = document.createElement('td');
+		var hostIpTD = document.createElement('td');
+		var hostNameTD = document.createElement('td');
+		var statusTD = document.createElement('td');
+
+		var serviceNameText = document.createTextNode(status.serviceName);
+		var text1 = document.createTextNode(status.hostIp);
+		var text2 = document.createTextNode(status.hostName);
+		var statusText = document.createTextNode(status.status);
+
+		serviceNameTD.appendChild(serviceNameText);
+		hostIpTD.appendChild(text1);
+		hostNameTD.appendChild(text2);
+		statusTD.appendChild(statusText);
+
+		tr.appendChild(serviceNameTD);
+		tr.appendChild(hostIpTD);
+		tr.appendChild(hostNameTD);
+		tr.appendChild(statusTD);
+
+		table1.appendChild(tr);
+
+		table1.style.width = '200px';
+		table1.setAttribute('border', '1');
+
+		response.appendChild(table1);
+	} */
+	
+	function show(status) {
+		
+		var resultDiv = document.getElementById("resultTabId");
+		resultDiv.style.display = 'inline';
+		
+		var table = document.getElementById("resultTabId");
+	    
+	    var rowCount = table.rows.length;//Length of table
+		var row = table.insertRow(rowCount);
+	    //Create the cells, create tds
+	    var serviceNameCell = row.insertCell(0);
+	    var hostIpCell = row.insertCell(1);
+	    var hostNameCell = row.insertCell(2);
+	    var statusCell = row.insertCell(3)
+	    //Create the Cell text
+	    serviceNameCell.innerHTML = status.serviceName;
+	    hostIpCell.innerHTML = status.hostIp;
+	    hostNameCell.innerHTML = status.hostName;
+	    statusCell.innerHTML = status.status;
+	    
+	}
+
+	function showResults(message) {
+		show(message);
+	}
+
+	function sendName() {
+		//var name = document.getElementById('name').value;
+		//stompClient.send("/app/hello", {}, JSON.stringify({ 'name': name }));
+
+		stompClient.send("/appstudio/check", {});
+	}
+
+	function check() {
+		connect();
+	}
+</script>
+</head>
+<body>
+
+	<h1>Check all the micro-services of Digital Marketing</h1>
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">Production</a></li>
+			<li><a href="#tabs-2">Second</a></li>
+			<li><a href="#tabs-3">Third</a></li>
+		</ul>
+		<div id="tabs-1">
+		
+		<div>
+			<button id="check" onclick="check();">Check</button>
+		</div>
+		
+		<div id="resultDivId">
+		<p id="results"></p>
+		<table id="resultTabId" border=1 >
+			<tr>
+				<th>Service Name</th>
+				<th>IP Address</th>
+				<th>Host Name</th>
+				<th>Status</th>
+			</tr>
+
+		</table>
+	</div>
+		
+		</div>
+		<div id="tabs-2">Phasellus mattis tincidunt nibh. Cras orci
+			urna, blandit id, pretium vel, aliquet ornare, felis. Maecenas
+			scelerisque sem non nisl. Fusce sed lorem in enim dictum bibendum.</div>
+		<div id="tabs-3">Nam dui erat, auctor a, dignissim quis,
+			sollicitudin eu, felis. Pellentesque nisi urna, interdum eget,
+			sagittis et, consequat vestibulum, lacus. Mauris porttitor
+			ullamcorper augue.</div>
+	</div>
+
+
+
+
+	<script>
+$( "#tabs" ).tabs();
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<application xmlns="http://wadl.dev.java.net/2009/02">
+	<doc xmlns:jersey="http://jersey.java.net/" jersey:generatedBy="Jersey: 2.14 2014-12-11 07:22:06" />
+	<doc xmlns:jersey="http://jersey.java.net/"
+		jersey:hint="This is simplified WADL with user and core resources only. To get full WADL with extended resources use the query parameter detail. Link: http://localhost:8090/springjersey/api/application.wadl?detail=true" />
+	<grammars>
+		<include href="application.wadl/xsd0.xsd">
+			<doc title="Generated" xml:lang="en" />
+		</include>
+	</grammars>
+	<resources base="http://localhost:8090/springjersey/api/">
+		<resource path="wadl">
+			<resource path="/deleteuser">
+				<method id="deleteEmp" name="DELETE">
+					<request>
+						<ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02"
+							xmlns="" element="User" mediaType="application/xml" />
+						<ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02"
+							xmlns="" element="User" mediaType="application/json" />
+					</request>
+					<response>
+						<representation mediaType="application/xml" />
+						<representation mediaType="application/json" />
+					</response>
+				</method>
+			</resource>
+			<resource path="/updateuser">
+				<method id="updateEmp" name="PUT">
+					<request>
+						<ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02"
+							xmlns="" element="User" mediaType="application/xml" />
+						<ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02"
+							xmlns="" element="User" mediaType="application/json" />
+					</request>
+					<response>
+						<representation mediaType="application/xml" />
+						<representation mediaType="application/json" />
+					</response>
+				</method>
+			</resource>
+			<resource path="/createuser">
+				<method id="createEmp" name="POST">
+					<request>
+						<ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02"
+							xmlns="" element="User" mediaType="application/xml" />
+						<ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02"
+							xmlns="" element="User" mediaType="application/json" />
+					</request>
+					<response>
+						<representation mediaType="application/xml" />
+						<representation mediaType="application/json" />
+					</response>
+				</method>
+			</resource>
+		</resource>
+	</resources>
+</application>

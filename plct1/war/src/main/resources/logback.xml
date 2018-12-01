@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<appender name="CONSOLELOG" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%d{dd-MMM-yyyy hh:mm:ss}]%p %c - %m%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="FILELOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+		<File>../../logs/appName.log</File>
+		<encoder>
+			<pattern>[%d{dd-MMM-yyyy hh:mm:ss}]%p %c - %m%n</pattern>
+		</encoder>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>logs/mylog-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<!-- each file should be at most 100MB, keep 60 days worth of history, 
+				but at most 20GB -->
+			<maxFileSize>100MB</maxFileSize>
+			<!-- Keep file for 60 days only -->
+			<maxHistory>60</maxHistory>
+			<!-- Maximum log can be 10 GB  -->
+			<totalSizeCap>10GB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+	
+	<logger name="org.apche" level="OFF" />
+	<logger name="org.springframework" level="OFF" />
+	
+	<!-- <logger name="com.ddlab" level="DEBUG|INFO|WARN|ERROR|FATAL" /> -->
+	<root level="debug">
+		<appender-ref ref="CONSOLELOG" />
+		<appender-ref ref="FILELOG" />
+	</root>
+
+</configuration>
